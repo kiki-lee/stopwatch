@@ -1,15 +1,27 @@
 
 
-
 //% color=#700264 icon="\uf2f2"
 //% groups='[]'
 namespace stopwatch {
 
     export enum TimerType {
-        //% block="seconds.mil"
+        //% block="decimal"
         Sec,
         //% block="min:sec:mil"
         Minsec
+    }
+
+    export enum TimerGran {
+        //% block="millis"
+        Mils,
+        //% block="hundredths"
+        Hunds,
+        //% block="tenths"
+        Tenths,
+        //% block="seconds"
+        Secs,
+        //% block="minutes"
+        Mins
     }
 
 
@@ -134,10 +146,11 @@ namespace stopwatch {
      * Return the current value of the count-up timer
      */
     //% blockId=get_timer
-    //% block="timer value (ms)"
+    //% block="timer value || $how"
     //% inlineInputMode=inline
+    //% how.defl=TimerGran.Mils
     //% help=github:docs/get_timer
-    export function getTimerValue(): number {
+    export function getTimerValue(how?:TimerGran): number {
         return stopwatch.timer1.millis();
     }
 
