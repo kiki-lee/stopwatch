@@ -1,4 +1,4 @@
-// meta={"simUrl":"https://trg-arcade.userpxt.io/v1.12.41/---simulator","cdnUrl":"https://pxt.azureedge.net","version":"0.0.3","target":"arcade","targetVersion":"1.12.41","repo":"kiki-lee/stopwatch"}
+// meta={"simUrl":"https://trg-arcade.userpxt.io/v1.12.41/---simulator","cdnUrl":"https://pxt.azureedge.net","version":"0.0.4","target":"arcade","targetVersion":"1.12.41","repo":"kiki-lee/stopwatch"}
 // total=1255478 new=5.85% cached=88.49% other=5.67%
 (function (ectx) {
 'use strict';
@@ -429,7 +429,7 @@ const pxsim_pxtrt = pxsim.pxtrt;
 const pxsim_numops = pxsim.numops;
 
 
-function _main___P189918(s) {
+function _main___P196532(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -827,18 +827,18 @@ switch (step) {
     s.callLocIdx = 62; s.pc = 36; return s.tmp_0;
   case 36:
     r0 = s.retval;
-    globals.timerState___189428 = (undefined);
+    globals.timerState___195908 = (undefined);
     r0 = undefined;
     return leave(s, r0)
   default: oops()
 } } }
-_main___P189918.info = {"start":0,"length":0,"line":0,"column":0,"endLine":0,"endColumn":0,"fileName":"main.ts","functionName":"<main>","argumentNames":[]}
-_main___P189918.continuations = [  ]
+_main___P196532.info = {"start":0,"length":0,"line":0,"column":0,"endLine":0,"endColumn":0,"fileName":"main.ts","functionName":"<main>","argumentNames":[]}
+_main___P196532.continuations = [  ]
 
-function _main___P189918_mk(s) {
+function _main___P196532_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: _main___P189918, depth: s.depth + 1,
+        parent: s, fn: _main___P196532, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -42327,7 +42327,7 @@ const sprites_BaseSpriteSayRenderer__C169486_VT = mkVTable({
   },
 });
 
-const breakpoints = setupDebugger(1, ["timerState___189428"])
+const breakpoints = setupDebugger(1, ["timerState___195908"])
 
-return _main___P189918
+return _main___P196532
 })
