@@ -13,15 +13,15 @@ namespace stopwatch {
 
     export enum TimerGran {
         //% block="millis"
-        Mils,
+        Mils = 1,
         //% block="hundredths"
-        Hunds,
+        Hunds = 10,
         //% block="tenths"
-        Tenths,
+        Tenths = 100,
         //% block="seconds"
-        Secs,
+        Secs = 1000,
         //% block="minutes"
-        Mins
+        Mins = 60000
     }
 
 
@@ -151,7 +151,7 @@ namespace stopwatch {
     //% how.defl=TimerGran.Mils
     //% help=github:docs/get_timer
     export function getTimerValue(how?:TimerGran): number {
-        return stopwatch.timer1.millis();
+        return stopwatch.timer1.millis() / how;
     }
 
     /**
