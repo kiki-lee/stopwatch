@@ -7,6 +7,10 @@ namespace stopwatch {
     export enum TimerType {
         //% block="decimal"
         Sec,
+        //% block="milliseconds"
+        Mils,
+        //% block="tenths only"
+        Tens,
         //% block="min:sec:mil"
         Minsec
     }
@@ -221,6 +225,29 @@ namespace stopwatch {
             screen.fillRect(left - 3, 0, width + 6, font.charHeight + 3, timerState.borderColor)
             screen.fillRect(left - 2, 0, width + 4, font.charHeight + 2, color2)
             screen.print(prefix + formatDecimal(remainder1) + ":" + formatDecimal(remainder), left + manyMins, 1, color1, font);
+
+        }
+        if (stopwatch.timer1.timerKind == TimerType.Tens) {
+
+            const top = 1;
+            const tenthsOfA = Math.idiv(millis, 10);
+            const width = font.charWidth * (7 + (tenthsOfA/10)) + 2;
+            let left = (screen.width >> 1) - (width >> 1) + 1;
+            screen.fillRect(left - 3, 0, width + 6, font.charHeight + 3, timerState.borderColor)
+            screen.fillRect(left - 2, 0, width + 4, font.charHeight + 2, color2)
+            screen.print(formatDecimal(tenthsOfA), left, 1, color1, font);
+
+        }
+        if (stopwatch.timer1.timerKind == TimerType.Mils) {
+
+            const top = 1;
+            const millsOfA = millis;
+            const width = font.charWidth * (7 + (millsOfA / 10)) + 2;
+            let left = (screen.width >> 1) - (width >> 1) + 1;
+            screen.fillRect(left - 3, 0, width + 6, font.charHeight + 3, timerState.borderColor)
+            screen.fillRect(left - 2, 0, width + 4, font.charHeight + 2, color2)
+            screen.print(formatDecimal(millsOfA), left, 1, color1, font);
+
 
         } else {
             const top = 1;
