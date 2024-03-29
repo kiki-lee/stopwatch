@@ -4,6 +4,11 @@
 //% groups='[]'
 namespace stopwatch {
 
+
+    let timerState: TimerState = undefined;
+    let hudElement: scene.Renderable;
+    let pausedAt = game.runtime();
+
     export enum TimerType {
         //% block="decimal"
         Sec,
@@ -38,10 +43,12 @@ namespace stopwatch {
     export class Timer {
         start: number;
         timerKind: TimerType;
+        active: boolean;
 
         constructor() {
             this.start = game.runtime();
             this.timerKind = TimerType.Minsec;
+            this.active = true;
         }
 
         /**
@@ -67,32 +74,55 @@ namespace stopwatch {
 
     }
 
-    //Formerly in shakao/pxt-countup
 
     /**
      * Pauses action until the timer reaches the given amount of milliseconds
      * @param ms how long to pause for, eg: 5, 100, 200, 500, 1000, 2000
      */
-    //% blockId=timerPauseUntil 
-    //% block="pause until timer reaches $thisSec (seconds)"
+    //% blockId=pauseUntilTimer 
+    //% block="pause until timer reaches $thisSec $how"
     //% ms.defl=5
-    export function pauseUntil(thisSec: number) {
-        const remaining = stopwatch.timer1.millis() - (thisSec * 1000);
-        pause(Math.max(0, remaining));
+    export function pauseTimerUntil(thisSec: number, how: TimerGran) {
+        pauseUntil(() => stopwatch.timer1.millis() >= thisSec * how)
     }
 
     /**
     * Pauses timer 
     */
-    // blockId=timerPause block="pause timer" weight=5
+    //% blockId=timerPause 
+    //% block="pause timer" weight=5
     export function pauseCountup() {
+        if (stopwatch.timer1.active != false) {
+            pausedAt = stopwatch.getTimerValue(stopwatch.TimerGran.Mils);
+        }
+        stopwatch.timer1.active = false;
+    }
 
+
+    /**
+    * Unpauses timer 
+    */
+    //% blockId=timerUnpause 
+    //% block="unpause timer" weight=5
+    export function unpauseCountup() {
+        if (stopwatch.timer1.active != true) {
+            setTimerTo(pausedAt);
+        }
+        stopwatch.timer1.active = true;
+    }
+
+
+    /**
+    * Resets timer 
+    */
+    //% blockId=timerReset 
+    //% block="reset timer"
+    export function resetTimer() {
+        stopwatch.timer1.reset()
     }
 
     // Formerly in Carnival ---
 
-    let timerState: TimerState = undefined;
-    let hudElement: scene.Renderable;
 
     class TimerState {
         public playerStates: info.PlayerState[];
@@ -182,6 +212,18 @@ namespace stopwatch {
     }
 
     /**
+    * Sets timer to a certain number of milliseconds
+    */
+    //% blockId=set_timer
+    //% block="set timer to $mils (ms)"
+    //% inlineInputMode=inline
+    //% help=github:docs/set_timer
+    export function setTimerTo(mils: number) {
+        let currentTimer = mils;
+        stopwatch.timer1.start = game.runtime() - currentTimer
+    }
+
+    /**
     * Toggles the flag to indicate timer visibility
     */
     function updateFlag(flag: info.Visibility, on: boolean) {
@@ -195,6 +237,10 @@ namespace stopwatch {
     * in proper format
     */
     function drawTimer(millis: number) {
+        if (stopwatch.timer1.active == false) {
+            setTimerTo(pausedAt);
+            millis = pausedAt;
+        }
         if (millis < 0) millis = 0;
         millis |= 0;
 
@@ -262,7 +308,6 @@ namespace stopwatch {
             screen.fillRect(left - 2, 0, width + 4, font.charHeight + 2, color2)
             screen.print(formatDecimal(seconds) + "." + formatDecimal(remainder), left + manySecs - 1, top, color1, font)
         }
-
     }
 
     /**
